@@ -5,6 +5,7 @@
 #include <maus.h>
 
 #include "common.h"
+#include "events.h"
 
 static void run(void);
 static void setup(void);
@@ -21,6 +22,7 @@ static void run(void)
 	running = 1;
 	while (running) {
 		maus_event_wait(ctx, &maus_event);
+		event_handler[maus_event.type](&bam);
 		maus_clear(ctx, col_white);
 
 		maus_present(ctx);
@@ -29,7 +31,7 @@ static void run(void)
 
 static void setup(void)
 {
-	ctx = maus_init("ximus", 100, 100, 10, 10);
+	ctx = maus_init("ximus", 10, 10, 800, 600);
 	if (!ctx)
 		maus_die("Failed to initialise maus context");
 

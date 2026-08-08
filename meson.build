@@ -16,6 +16,7 @@ vendor_sources = [
 ]
 sources = [
 	'source/bam.c',
+	'source/events.c',
         vendor_sources
 ]
 
