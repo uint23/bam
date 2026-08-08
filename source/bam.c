@@ -6,6 +6,7 @@
 
 #include "common.h"
 #include "events.h"
+#include "grid.h"
 
 static void run(void);
 static void setup(void);
@@ -14,6 +15,8 @@ Bam bam = { 0 };
 static Maus* ctx = NULL;
 static MausEvent maus_event;
 static int running = 0;
+
+Grid test_grid = { 0 };
 
 static MausColor col_white = { 255, 255, 255, 255 };
 
@@ -41,6 +44,8 @@ static void setup(void)
 	bam.ctx = ctx;
 	bam.running = &running;
 	bam.ev = &maus_event;
+
+	test_grid = grid_init(20, 20);
 }
 
 int main(int argc, char* argv[])
