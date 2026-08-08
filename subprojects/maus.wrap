@@ -1,0 +1,6 @@
+[wrap-git]
+# url = https://github.com/uint23/maus
+url = https://srcdump.net/uint/maus.git
+revision = master
+depth = 1
+
