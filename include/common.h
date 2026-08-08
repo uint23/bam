@@ -10,7 +10,7 @@
 #define HELP_MESSAGE \
 "bam:\n" \
 "\t[-v|--version] : Show the program version\n"
-#define KEY(k) (MAUS_KEY_##k)
+#define KEY(k) (ctx->key_syms[MAUS_KEY_##k])
 
 typedef struct {
 	Maus*      ctx;
