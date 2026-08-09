@@ -3,6 +3,8 @@
 
 #include <maus.h>
 
+#include "grid.h"
+
 #ifndef BAM_VERSION
 	#define BAM_VERSION "..who knows"
 #endif /* BAM_VERSION */
@@ -27,6 +29,7 @@ typedef enum {
 typedef struct {
 	Maus*      ctx;
 	MausEvent* ev;
+	Grid*      grid;
 
 	int* running;
 } Bam;

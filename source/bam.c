@@ -34,12 +34,7 @@ static void run(void)
 		event_handler[maus_event.type](&bam);
 		maus_clear(ctx, col_white);
 
-		for (y = 0; y < test_grid.height; y+=2) {
-			for (x = 0; x < test_grid.width; x++) {
-				grid_set_pixel(&test_grid, x, y, 1);
-			}
-		}
-
+		/* draw grid */
 		for (y = 0; y < test_grid.height; y++) {
 			for (x = 0; x < test_grid.width; x++) {
 				if (grid_get_pixel(&test_grid, x, y))
@@ -63,6 +58,7 @@ static void setup(void)
 	bam.ctx = ctx;
 	bam.running = &running;
 	bam.ev = &maus_event;
+	bam.grid = &test_grid;
 
 	test_grid = grid_init(200, 200);
 }

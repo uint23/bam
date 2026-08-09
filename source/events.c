@@ -1,4 +1,5 @@
 #include "events.h"
+#include "grid.h"
 
 static void handle_none(Bam* bam);
 static void handle_close(Bam* bam);
@@ -39,12 +40,23 @@ static void handle_key(Bam* bam)
 
 static void handle_mouse_button(Bam* bam)
 {
-	(void) bam;
+	Grid* grid = bam->grid;
+	int cx = bam->ctx->cursor.x;
+	int cy = bam->ctx->cursor.y;
+
+	if (!bam->ctx->mouse_buttons[MAUS_MOUSE_BUTTON_LEFT])
+		return;
+
+	if (cx > grid->width || cy > grid->height)
+		return;
+
+	grid_set_pixel(grid, cx, cy, 1);
 }
 
 static void handle_mouse_motion(Bam* bam)
 {
-	(void) bam;
+	if (bam->ctx->mouse_buttons[MAUS_MOUSE_BUTTON_LEFT])
+		handle_mouse_button(bam);
 }
 
 static void handle_resize(Bam* bam)
