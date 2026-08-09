@@ -69,8 +69,7 @@ static void setup(void)
 
 static void set_pixel(unsigned x, unsigned y, uint32_t col)
 {
-	if (x >= ctx->width || x < 0 ||
-	    y >= ctx->height || y < 0) {
+	if (x >= ctx->width|| y >= ctx->height) {
 		bamerr = ERR_DRAW_OOB;
 		return;
 	}
