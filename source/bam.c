@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,8 +11,10 @@
 
 static void run(void);
 static void setup(void);
+static void set_pixel(unsigned x, unsigned y, uint32_t col);
 
 Bam bam = { 0 };
+ErrorType bamerr = ERR_OK;
 static Maus* ctx = NULL;
 static MausEvent maus_event;
 static int running = 0;
@@ -22,11 +25,27 @@ static MausColor col_white = { 255, 255, 255, 255 };
 
 static void run(void)
 {
+	int x;
+	int y;
+
 	running = 1;
 	while (running) {
 		maus_event_wait(ctx, &maus_event);
 		event_handler[maus_event.type](&bam);
 		maus_clear(ctx, col_white);
+
+		for (y = 0; y < test_grid.height; y+=2) {
+			for (x = 0; x < test_grid.width; x++) {
+				grid_set_pixel(&test_grid, x, y, 1);
+			}
+		}
+
+		for (y = 0; y < test_grid.height; y++) {
+			for (x = 0; x < test_grid.width; x++) {
+				if (grid_get_pixel(&test_grid, x, y))
+					set_pixel(x, y, 0xFF000000);
+			}
+		}
 
 		maus_present(ctx);
 	}
@@ -34,7 +53,7 @@ static void run(void)
 
 static void setup(void)
 {
-	ctx = maus_init("ximus", 10, 10, 800, 600);
+	ctx = maus_init("bam", 10, 10, 800, 600);
 	if (!ctx)
 		maus_die("Failed to initialise maus context");
 
@@ -45,7 +64,18 @@ static void setup(void)
 	bam.running = &running;
 	bam.ev = &maus_event;
 
-	test_grid = grid_init(20, 20);
+	test_grid = grid_init(200, 200);
+}
+
+static void set_pixel(unsigned x, unsigned y, uint32_t col)
+{
+	if (x >= ctx->width || x < 0 ||
+	    y >= ctx->height || y < 0) {
+		bamerr = ERR_DRAW_OOB;
+		return;
+	}
+
+	MAUS_PIXEL_AT(ctx, x, y) = col;
 }
 
 int main(int argc, char* argv[])
