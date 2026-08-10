@@ -12,7 +12,8 @@
 #define HELP_MESSAGE \
 "bam:\n" \
 "\t[-v|--version] : Show the program version\n"
-#define KEY(k) (ctx->key_syms[MAUS_KEY_##k])
+#define KEY(k) (bam->ctx->key_syms[MAUS_KEY_##k])
+#define BTN(k) (bam->ctx->mouse_buttons[MAUS_MOUSE_BUTTON_##k])
 
 typedef enum {
 	ERR_OK,

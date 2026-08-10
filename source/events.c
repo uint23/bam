@@ -31,8 +31,6 @@ static void handle_close(Bam* bam)
 
 static void handle_key(Bam* bam)
 {
-	Maus* ctx = bam->ctx;
-
 	/* quit */
 	if (KCLOSE)
 		handle_close(bam);
@@ -44,9 +42,12 @@ static void handle_mouse_button(Bam* bam)
 	int cx = bam->ctx->cursor.x / bam->scale;
 	int cy = bam->ctx->cursor.y / bam->scale;
 
-	if (bam->ctx->mouse_buttons[MAUS_MOUSE_BUTTON_LEFT]) {
+	if (BDRAW) {
+		grid_set_pixel(grid, cx, cy, 1);
+	}
+	else if (BERASE) {
 		if (!(cx > grid->width || cy > grid->height))
-			grid_set_pixel(grid, cx, cy, !(grid_get_pixel(grid, cx, cy)));
+			grid_set_pixel(grid, cx, cy, 1);
 	}
 
 	if (bam->ev->mouse.button.button == MAUS_MOUSE_BUTTON_SCROLL_UP) {
