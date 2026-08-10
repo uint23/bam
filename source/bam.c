@@ -27,6 +27,8 @@ static void run(void)
 {
 	int x;
 	int y;
+	int xs;
+	int ys;
 
 	running = 1;
 	while (running) {
@@ -37,8 +39,14 @@ static void run(void)
 		/* draw grid */
 		for (y = 0; y < test_grid.height; y++) {
 			for (x = 0; x < test_grid.width; x++) {
-				if (grid_get_pixel(&test_grid, x, y))
-					set_pixel(x, y, 0xFF000000);
+				for (ys = 0; ys < bam.scale; ys++)
+					for (xs = 0; xs < bam.scale; xs++)
+						set_pixel(
+							x * bam.scale + xs,
+							y * bam.scale + ys,
+							grid_get_pixel(&test_grid, x, y) ?
+							0xFF000000 : 0xFFFFFFFF
+						);
 			}
 		}
 
@@ -48,7 +56,10 @@ static void run(void)
 
 static void setup(void)
 {
-	ctx = maus_init("bam", 10, 10, 800, 600);
+	bam.scale = 10;
+	test_grid = grid_init(8, 16);
+
+	ctx = maus_init("bam", 10, 10, test_grid.width*bam.scale, test_grid.height*bam.scale);
 	if (!ctx)
 		maus_die("Failed to initialise maus context");
 
@@ -59,8 +70,6 @@ static void setup(void)
 	bam.running = &running;
 	bam.ev = &maus_event;
 	bam.grid = &test_grid;
-
-	test_grid = grid_init(200, 200);
 }
 
 static void set_pixel(unsigned x, unsigned y, uint32_t col)

@@ -32,6 +32,7 @@ typedef struct {
 	Grid*      grid;
 
 	int* running;
+	int scale;
 } Bam;
 
 void bam_log_err(ErrorType err);
