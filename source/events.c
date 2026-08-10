@@ -46,8 +46,7 @@ static void handle_mouse_button(Bam* bam)
 		grid_set_pixel(grid, cx, cy, 1);
 	}
 	else if (BERASE) {
-		if (!(cx > grid->width || cy > grid->height))
-			grid_set_pixel(grid, cx, cy, 1);
+		grid_set_pixel(grid, cx, cy, 0);
 	}
 
 	if (bam->ev->mouse.button.button == MAUS_MOUSE_BUTTON_SCROLL_UP) {
@@ -71,7 +70,7 @@ static void handle_mouse_button(Bam* bam)
 
 static void handle_mouse_motion(Bam* bam)
 {
-	if (bam->ctx->mouse_buttons[MAUS_MOUSE_BUTTON_LEFT])
+	if (BDRAW || BERASE)
 		handle_mouse_button(bam);
 }
 

@@ -10,8 +10,7 @@
 #define KCLOSE (KEY(Q) && KEY(CONTROL_L))
 
 #define BDRAW  (BTN(LEFT))
-#define BERASE (BTN(RIGHT) || \
-               (BTN(LEFT) && KEY(CONTROL_L)))
+#define BERASE (BTN(RIGHT))
 
 extern void (*event_handler[MAUS_EV_LAST])(Bam*);
 
